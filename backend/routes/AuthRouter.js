@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const { signup } = require(path.join(
+const { signup, login, verify } = require(path.join(
   __dirname,
   "..",
   "controllers",
@@ -10,5 +10,7 @@ const { signup } = require(path.join(
 const router = express.Router();
 
 router.post("/signup", signup);
+router.post("/login", login);
+router.get("/verify", verify);
 
 module.exports = router;
