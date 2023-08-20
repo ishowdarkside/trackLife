@@ -7,18 +7,26 @@ const catchAsync = require(path.join(
 ));
 const AppError = require(path.join(__dirname, "..", "utilities", "AppError"));
 const User = require(path.join(__dirname, "..", "models", "User"));
+const generateJWT = require(path.join(
+  __dirname,
+  "..",
+  "utilities",
+  "generateJWT"
+));
 
 exports.signup = catchAsync(async (req, res, next) => {
-  console.log(req.body);
   const user = await User.create({
-    email: req.body.email,
+    username: req.body.username,
     password: req.body.password,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
   });
 
+  const token = await generateJWT(user.id);
+
   res.status(200).json({
     status: "success",
     message: "Signed up successfully!",
+    token,
   });
 });
